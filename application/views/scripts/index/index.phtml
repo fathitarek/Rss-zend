@@ -1,0 +1,30 @@
+<?php
+
+if ($this->index) {
+    // $feed = Zend_Feed_Reader::import($this->index);
+//foreach ($this->feed as $key=>$item){
+//echo $this->rss[$i]['feed'];
+    for ($i = 0; $i < count($this->index); $i++) {
+
+        //   echo $item->getTitle() . "<br/>";
+        // echo  $item->getLanguage() . "<br/>";
+//        echo '<a href="' . $item->getLink() . '"> "' . $item->getTitle() . '"</a><br />';
+//        echo $item->getDateModified() . "<br/>";
+//        echo $item->getDescription() . "<br/>";
+//        echo $item->getAuthors() . "<br/>";
+        echo 'NUmber: ' . $this->index[$i]['id'] . '<br />';
+        $feed = Zend_Feed_Reader::import($this->index[$i]['rss']);
+        foreach ($feed as $key => $item) {
+
+            echo 'TITLE:'.'<a href="' . $item->getLink() . '"> "' . $item->getTitle() . '"</a><br />';
+            echo'Desc'. $item->getDescription() . "<br/>";
+            echo 'Date:'.$item->getDateModified() . "<br/>";
+        }
+         echo str_repeat('*', 100) . '<br />';
+    }
+   
+}
+
+ 
+
+    
