@@ -16,9 +16,10 @@ if ($this->index) {
         $feed = Zend_Feed_Reader::import($this->index[$i]['rss']);
         foreach ($feed as $key => $item) {
 
-            echo 'TITLE:'.'<a href="' . $item->getLink() . '"> "' . $item->getTitle() . '"</a><br />';
-            echo'Desc'. $item->getDescription() . "<br/>";
-            echo 'Date:'.$item->getDateModified() . "<br/>";
+            echo ' <h3>Ttile :'.'<a href="' . $item->getLink() . '"> "' . $item->getTitle() . '" </h3></a><br />';
+            echo' <h5>Descrption : '. $item->getDescription() . " </h5></br/>";
+            echo ' <h6> Date: '.$item->getDateModified() . "</h6><br/>";
+            echo str_repeat('#', 100) . '<br />';
         }
          echo str_repeat('*', 100) . '<br />';
     }

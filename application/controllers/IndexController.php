@@ -5,11 +5,26 @@ class IndexController extends Zend_Controller_Action {
     public function init() {
         /* Initialize action controller here */
         $this->model = new Application_Model_Rss();
+        
+  
+    
     }
 
     public function indexAction() {
         // action body
-        $this->view->index = $this->model->listRss();
+        $auth = Zend_Auth::getInstance();
+if (!$auth->hasIdentity()) {
+     $this->view->index = $this->model->listAllRss();
+} else {
+    $data = $auth->getIdentity();
+   // $username = $data->name;
+        $id = $data->id;
+    //$uid=Zend_Session::getId();
+   // echo "Name :".$username;
+   // echo " <br> id:". $id;
+                $this->view->index = $this->model->listRss($id);
+
+} 
         // $feedUrl =  'http://feeds.reuters.com/reuters/healthNews';
         //   $feed = Zend_Feed_Reader::import($feedUrl);
         //  print_r($feed);

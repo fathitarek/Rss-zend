@@ -18,22 +18,22 @@ class UsersController extends Zend_Controller_Action {
 
         $login_model = new Application_Model_Users();
         if ($login_form->isValid($_POST)) {
+
+
             $email = $this->_request->getParam('email');
             $password = $this->_request->getParam('password');
             $username = $this->_request->getParam('name');
+            $user_id = $this->_request->getParam('id');
             $db = Zend_Db_Table::getDefaultAdapter();
             $authAdapter = new Zend_Auth_Adapter_DbTable($db, 'users', 'email', 'password');
-
             $authAdapter->setIdentity($email);
             $authAdapter->setCredential(md5($password));
             $result = $authAdapter->authenticate();
             if ($result->isValid()) {
                 $auth = Zend_Auth::getInstance();
                 $storage = $auth->getStorage();
-                $storage->write($authAdapter->getResultRowObject(array('email', 'password', 'name')));
-                $this->_redirect('index/index');
-                // echo "welcome";
-            } else {
+                $storage->write($authAdapter->getResultRowObject(array('id','email', 'password', 'name')));
+                $this->_redirect('index');
                 $this->_redirect('users/login');
             }
         }
@@ -52,10 +52,10 @@ class UsersController extends Zend_Controller_Action {
                 // echo "hello";
 
                 $data = $this->preparedata($data);
-               // $data =  $this-> preparemail($data);
-               if ($register_model->checkUnique($data['email'])) {
-                   $this->view->errorMessage = "Name already taken. Please choose another one.";
-                   return;
+                // $data =  $this-> preparemail($data);
+                if ($register_model->checkUnique($data['email'])) {
+                    $this->view->errorMessage = "Name already taken. Please choose another one.";
+                    return;
                 }
 
                 $register_model->insert($data);
@@ -95,16 +95,16 @@ class UsersController extends Zend_Controller_Action {
         return $data;
     }
 
-    public function preparemail($data) {
-        $validator = new Zend_Validate_EmailAddress();
-        if ($validator->isValid($data['email'])) {
-            //$data['email'] = md5($data['email']);
-            return $data;
-        } else {
-
-            return false;
-        }
-    }
+//    public function preparemail($data) {
+//        $validator = new Zend_Validate_EmailAddress();
+//        if ($validator->isValid($data['email'])) {
+//            //$data['email'] = md5($data['email']);
+//            return $data;
+//        } else {
+//
+//            return false;
+//        }
+//    }
 
     public function logoutAction() {
         $user = Zend_Auth::getInstance();

@@ -12,10 +12,12 @@ class Application_Form_Registration extends Zend_Form {
                 ->addFilter('StripTags');
         $name->setAttrib("class", "form-control");
         $name->setAttrib("placeholder", "Name");
-
+//'^[a-zA-Z0-9._-]+@[a-zA-Z0-9-] +.[a-zA-Z.]{2,5}$'
         $email = $this->createElement('text', 'email');
         $email->setLabel('Email: *')
-                ->setRequired(true);
+                ->setRequired(true)
+               // ->addValidator('regex',true,array('^[a-zA-Z0-9._-]+@[a-zA-Z0-9-] +.[a-zA-Z.]{2,5}$'))
+                ->addErrorMessage('Please enter a comma separated list of numbers');
         $email->setAttrib("class", "form-control");
         $email->setAttrib("placeholder", "Email");
 
