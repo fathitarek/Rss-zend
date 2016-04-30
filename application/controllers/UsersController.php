@@ -1,24 +1,19 @@
 <?php
-class UsersController extends Zend_Controller_Action
-{
 
-    public function init()
-    {
+class UsersController extends Zend_Controller_Action {
+
+    public function init() {
         /* Initialize action controller here */
-
     }
 
-    public function indexAction()
-    {
+    public function indexAction() {
         // action body
-
     }
 
-    public function loginAction()
-    {
+    public function loginAction() {
         // action body
         $login_form = new Application_Form_Login();
-        
+
         $this->view->login = $login_form;
 
         $login_model = new Application_Model_Users();
@@ -35,46 +30,43 @@ class UsersController extends Zend_Controller_Action
             if ($result->isValid()) {
                 $auth = Zend_Auth::getInstance();
                 $storage = $auth->getStorage();
-                $storage->write($authAdapter->getResultRowObject(array('email','password','name')));
-                $this->_redirect('categories/main');
-                echo "welcome";
+                $storage->write($authAdapter->getResultRowObject(array('email', 'password', 'name')));
+                $this->_redirect('index/index');
+                // echo "welcome";
+            } else {
+                $this->_redirect('users/login');
             }
         }
     }
 
-    public function registerAction()
-    {
+    public function registerAction() {
         // action body
         $register_model = new Application_Model_Users();
         $form = new Application_Form_Registration();
-        $this->view->register =$form;
-        
+        $this->view->register = $form;
+
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($_POST)) {
-                           
-               $data = $form->getValues();
-                echo "hello";
-                
-               //$data=$this->preparedata($data);
-//
-//                if ($register_model->checkUnique($data['email'])) {
-//                    $this->view->errorMessage = "Name already taken. Please choose another one.";
-//                    return;
-//                }
+
+                $data = $form->getValues();
+                // echo "hello";
+
+                $data = $this->preparedata($data);
+               // $data =  $this-> preparemail($data);
+               if ($register_model->checkUnique($data['email'])) {
+                   $this->view->errorMessage = "Name already taken. Please choose another one.";
+                   return;
+                }
 
                 $register_model->insert($data);
                 //$accept=$this->sendConfirmationEmail($data);
-               
-                 $this->redirect('users/login');        
-            
-            
+
+                $this->redirect('users/login');
+            }
         }
     }
 
-    }
-
-    public function addAction()
-    {
+    public function addAction() {
         // action body
         $form = new Application_Form_Users();
 
@@ -89,56 +81,35 @@ class UsersController extends Zend_Controller_Action
         $this->view->form = $form;
     }
 
-   
-
-    public function homeAction()
-    {
+    public function homeAction() {
         // action body
         $storage = new Zend_Auth_Storage_Session();
         $data = $storage->read();
         if (!$data) {
             $this->_redirect('users/login');
         }
-        //$this->view->users = $data['name'];
     }
 
-    public function deleteAction()
-    {
-        // action body
-         $id = $this->_request->getParam("id");
-        if (!empty($id)) {
-            $user_model = new Application_Model_Users();
-            $user_model->deleteUser($id);
+    public function preparedata($data) {
+        $data['password'] = md5($data['password']);
+        return $data;
+    }
+
+    public function preparemail($data) {
+        $validator = new Zend_Validate_EmailAddress();
+        if ($validator->isValid($data['email'])) {
+            //$data['email'] = md5($data['email']);
+            return $data;
+        } else {
+
+            return false;
         }
-        $this->redirect("users/list");
     }
 
-    public function logoutAction()
-    {
+    public function logoutAction() {
         $user = Zend_Auth::getInstance();
         $user->clearIdentity();
         $this->_redirect('users/login');
     }
 
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
