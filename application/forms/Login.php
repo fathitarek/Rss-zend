@@ -15,7 +15,10 @@ class Application_Form_Login extends Zend_Form
                 ->addFilter('StripTags');
 
        $email->setAttrib("class", "form-control");
-       $email->setAttrib("placeholder", "Email");
+       $email->setAttrib("placeholder", "Email")
+               ->addFilters(array('StringTrim', 'StripTags'))
+                ->addValidator('EmailAddress', TRUE)
+                ->addErrorMessage('Please enter your email like example@example.ex');
        
         $password = $this->createElement('password','password');
         $password->setLabel('Password:')
