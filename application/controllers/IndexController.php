@@ -56,5 +56,16 @@ if (!$auth->hasIdentity()) {
         $this->view->form = $form;
         $this->render('add');
     }
+    
+    public function deleteAction(){
+	$id = $this->getRequest()->getParam('id');
+	if($id){
+	 if ($this->model->deleteRss($id))
+		$this->redirect('index/index');
+        
+    } else {
+		$this->redirect('index/index');
+	}
+	}
 
 }

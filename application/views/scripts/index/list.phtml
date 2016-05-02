@@ -1,0 +1,24 @@
+
+<?php
+
+if ($this->index) {
+    
+    for ($i = 0; $i < count($this->index); $i++) {
+
+        echo 'NUmber: ' . $this->index[$i]['id'] . '<br />';
+      //  $feed = Zend_Feed_Reader::import($this->list[$i]['rss']);
+//        foreach ($feed as $key => $item) {
+//
+//            echo ' <h3>Ttile :'.'<a href="' . $item->getLink() . '"> "' . $item->getTitle() . '" </h3></a><br />';
+//            echo' <h5>Descrption : '. $item->getDescription() . " </h5></br/>";
+//            echo ' <h6> Date: '.$item->getDateModified() . "</h6><br/>";
+//            echo str_repeat('#', 100) . '<br />';
+//        }
+         echo str_repeat('*', 100) . '<br />';
+    }
+   
+}
+
+ 
+
+    

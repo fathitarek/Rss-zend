@@ -13,6 +13,8 @@ if ($this->index) {
 //        echo $item->getDescription() . "<br/>";
 //        echo $item->getAuthors() . "<br/>";
         echo 'NUmber: ' . $this->index[$i]['id'] . '<br />';
+        echo ' <h4>Rss Name: ' . $this->index[$i]['rss'] . '</h4> '
+                . '<a href="'.$this->baseUrl().'/index.php/index/delete/id/'.$this->index[$i]['id'].'" >delete </a><br/>';
         $feed = Zend_Feed_Reader::import($this->index[$i]['rss']);
         foreach ($feed as $key => $item) {
 

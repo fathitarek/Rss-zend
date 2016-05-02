@@ -34,5 +34,8 @@ class Application_Model_Rss extends Zend_Db_Table_Abstract {
             return $row->save();
         }
     }
+     function deleteRss($id){
+        return $this->delete("id=$id");
+    }
 
 }
